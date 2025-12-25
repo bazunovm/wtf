@@ -26,7 +26,7 @@ var rules []Rule
 
 func init() {
 	// Load YAML rules
-	data, err := ioutil.ReadFile("internal/explainer/rules.yaml")
+	data, err := ioutil.ReadFile("/usr/local/share/wtf/rules.yaml")
 	if err != nil {
 		fmt.Println("Failed to load rules.yaml:", err)
 		os.Exit(1)
