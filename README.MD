@@ -12,14 +12,17 @@
 ```bash
 git clone https://github.com/yourusername/wtf.git
 cd wtf
+```
 
 Дайте права на исполнение:
 
 ```bash
 chmod +x install.sh
+```
 
 Запустите скрипт с правами суперпользователя:
 
 ```bash
 sudo ./install.sh
+```
 
