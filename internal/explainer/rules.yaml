@@ -1,15 +1,15 @@
-- id: gcc_missing
-  match: "gcc: command not found"
-  title: "Компилятор gcc не найден"
-  meaning: "gcc не установлен или не доступен в PATH"
-  suggestions:
-    - "sudo apt install build-essential"
-    - "Проверьте переменную PATH"
+#- id: gcc_missing
+#  match: "gcc: command not found"
+#  title: "Компилятор gcc не найден"
+#  meaning: "gcc не установлен или не доступен в PATH"
+#  suggestions:
+#    - "sudo apt install build-essential"
+#    - "Проверьте переменную PATH"
 
-- id: make_not_found
-  match: "make: command not found"
-  title: "make не установлен"
-  meaning: "Утилита make отсутствует"
-  suggestions:
-    - "sudo apt install make"
+#- id: make_not_found
+#  match: "make: command not found"
+#  title: "make не установлен"
+#  meaning: "Утилита make отсутствует"
+#  suggestions:
+#    - "sudo apt install make"
 

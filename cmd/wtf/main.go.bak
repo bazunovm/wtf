@@ -29,18 +29,14 @@ func main() {
 
 	// Explain
 	// 1.3.0 result := explainer.Explain(ctx)
-	result, matched := explainer.Explain(ctx)
+	result := explainer.Explain(ctx, rules)
 
-	if !matched {
-		// Fallback to AI
+	if result.Title == "Unknown error" {
 		aiResult, err := ai.Explain(ctx)
 		if err == nil {
 			result = aiResult
-		} else {
-			// Если AI тоже не сработал
-			result = explainer.ExplainFallback()
 		}
-	}	
+	}
 
 	// Save memory
 	// memory.SaveError(ctx, result)
