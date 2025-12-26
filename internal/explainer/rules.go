@@ -3,9 +3,11 @@ package explainer
 import (
 	"fmt"
 	"os"
-	"wtf/internal/context"
+	"path/filepath"
+	"strings"
+
 	"gopkg.in/yaml.v3"
-	"io/ioutil"
+	"wtf/internal/context"
 )
 
 type ExplainResult struct {
@@ -25,52 +27,51 @@ type Rule struct {
 var rules []Rule
 
 func init() {
-	// Load YAML rules
-	data, err := ioutil.ReadFile("/usr/local/share/wtf/rules.yaml")
+	paths := []string{
+		"./rules.yaml",
+		"/usr/local/share/wtf/rules.yaml",
+		filepath.Join(os.Getenv("HOME"), ".config/wtf/rules.yaml"),
+	}
+
+	var data []byte
+	var err error
+
+	for _, p := range paths {
+		data, err = os.ReadFile(p)
+		if err == nil {
+			break
+		}
+	}
+
 	if err != nil {
-		fmt.Println("Failed to load rules.yaml:", err)
+		fmt.Println("Failed to load rules.yaml")
 		os.Exit(1)
 	}
 
-	err = yaml.Unmarshal(data, &rules)
-	if err != nil {
+	if err := yaml.Unmarshal(data, &rules); err != nil {
 		fmt.Println("Failed to parse rules.yaml:", err)
 		os.Exit(1)
 	}
 }
 
-func Explain(ctx *context.Context) (ExplainResult,bool) {
+func Explain(ctx *context.Context) ExplainResult {
 	for _, r := range rules {
-		if contains(ctx.Stderr, r.Match) {
+		if r.Match == "" {
+			continue
+		}
+		if strings.Contains(ctx.Stderr, r.Match) ||
+		strings.Contains(ctx.Stdout, r.Match) {
 			return ExplainResult{
-				Title: r.Title,
-				Meaning: r.Meaning,
+				Title:       r.Title,
+				Meaning:     r.Meaning,
 				Suggestions: r.Suggestions,
-			}, true
+			}
 		}
 	}
-	//return ExplainResult{
-	//	Title: "Unknown error",
-	//	Meaning: "No rule matched this error",
-	//	Suggestions: []string{"Check command output manually"},
-	//}
-	return ExplainResult{}, false
-}
 
-func ExplainFallback() ExplainResult {
 	return ExplainResult{
-		Title:       "Unknown error",
-		Meaning:     "No rule matched this error and AI failed",
-		Suggestions: []string{"Check command output manually"},
+		Title:   "",
+		Meaning: "",
 	}
-}
-
-func contains(text, sub string) bool {
-	return len(sub) > 0 && len(text) > 0 && (stringIndex(text, sub) != -1)
-}
-
-// simple string index function
-func stringIndex(s, substr string) int {
-	return len([]rune(s[:len(s)-len(substr)+1])) - 1 // simplified
 }
 

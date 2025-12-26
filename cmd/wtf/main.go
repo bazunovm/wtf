@@ -3,11 +3,11 @@ package main
 import (
 	"fmt"
 	"os"
-        "wtf/internal/ai"
+
 	"wtf/internal/context"
-	"wtf/internal/runner"
 	"wtf/internal/explainer"
-	// "wtf/internal/memory"
+	"wtf/internal/runner"
+	"wtf/internal/ai"
 )
 
 func main() {
@@ -27,25 +27,26 @@ func main() {
 	ctx.Stderr = stderr
 	ctx.ExitCode = exitCode
 
-	// Explain
-	// 1.3.0 result := explainer.Explain(ctx)
-	result, matched := explainer.Explain(ctx)
+	// Try rules first
+	result := explainer.Explain(ctx)
 
-	if !matched {
-		// Fallback to AI
+	// If no rule matched → use AI
+	if result.Title == "" {
 		aiResult, err := ai.Explain(ctx)
-		if err == nil {
-			result = aiResult
+		if err != nil {
+			result = explainer.ExplainResult{
+				Title:   "Unknown error",
+				Meaning: "No rule matched this error and AI failed",
+				Suggestions: []string{
+					"Check command output manually",
+				},
+			}
 		} else {
-			// Если AI тоже не сработал
-			result = explainer.ExplainFallback()
+			result = aiResult
 		}
-	}	
+	}
 
-	// Save memory
-	// memory.SaveError(ctx, result)
-
-	// Print
+	// Print result
 	fmt.Printf("\nError: %s\n", result.Title)
 	fmt.Printf("Meaning: %s\n", result.Meaning)
 	fmt.Println("Suggestions:")
@@ -53,3 +54,4 @@ func main() {
 		fmt.Printf("  - %s\n", s)
 	}
 }
+
