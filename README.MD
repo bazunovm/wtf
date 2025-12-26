@@ -1,73 +1,68 @@
-**WTF** — это удобный CLI-инструмент для объяснения ошибок команд Linux и Mac.  
-Он анализирует вывод ошибок и предлагает понятные объяснения и рекомендации.
+**WTF** is a convenient CLI tool for explaining Linux and Mac command errors.  
+It analyzes error outputs and provides clear explanations and recommendations.
+
 
 ---
 
-## 📦 Установка
+## 📦 Installation
 
-### Через скрипт `install.sh`
+### Using the `install.sh` script
 
-Склонируйте репозиторий:
+Clone the repository:
 
 ```bash
 git clone https://github.com/bazunovm/wtf.git
 cd wtf
 ```
 
-Дайте права на исполнение:
+Give the script execution permissions:
 
 ```bash
 chmod +x install.sh
 ```
 
-Запустите скрипт с правами суперпользователя:
+Run the script with superuser privileges:
 
 ```bash
 sudo ./install.sh
 ```
 
-Проверяем
+## 🚀 Usage
+
+### After installation, you can run commands using wtf:
+
+```bash
+wtf <command>
+```
+
+### Examples:
+
+Command:
 
 ```bash
 wtf make
 ```
 
-## 🚀 Использование
-
-### После установки вы можете запускать команды через wtf
+Output:
 
 ```bash
-wtf <команда>
-```
-
-### Примеры:
-
-Команда:
-
-```bash
-wtf make
-```
-
-Вывод:
-
-```bash
-Error: make не установлен
-Meaning: Утилита make отсутствует
+Error: make is not installed
+Meaning: The make utility is missing
 Suggestions:
   - sudo apt install make
 ```
 
-### 📝 Добавление новых правил
+### 📝 Adding new rules
 
-Все правила ошибок хранятся в internal/explainer/rules.yaml.
-Чтобы добавить новое правило:
+All error rules are stored in internal/explainer/rules.yaml.
+To add a new rule:
 
 ```yaml
 - id: example_error
   match: "example: command not found"
-  title: "Пример ошибки"
-  meaning: "Описание ошибки"
+  title: "Example Error"
+  meaning: "Description of the error"
   suggestions:
-    - "Рекомендация 1"
-    - "Рекомендация 2"
+    - "Recommendation 1"
+    - "Recommendation 2"
 ```
