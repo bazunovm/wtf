@@ -1,4 +1,4 @@
-**WTF** is a convenient CLI tool for explaining Linux and Mac command errors.  
+**wtf** is a convenient CLI tool for explaining Linux and Mac command errors.  
 It analyzes error outputs and provides clear explanations and recommendations.
 
 
