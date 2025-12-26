@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
-
+        "wtf/internal/ai"
 	"wtf/internal/context"
 	"wtf/internal/runner"
 	"wtf/internal/explainer"
@@ -28,7 +28,15 @@ func main() {
 	ctx.ExitCode = exitCode
 
 	// Explain
-	result := explainer.Explain(ctx)
+	// 1.3.0 result := explainer.Explain(ctx)
+	result := explainer.Explain(ctx, rules)
+
+	if result.Title == "Unknown error" {
+		aiResult, err := ai.Explain(ctx)
+		if err == nil {
+			result = aiResult
+		}
+	}
 
 	// Save memory
 	// memory.SaveError(ctx, result)
