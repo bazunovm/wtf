@@ -7,12 +7,12 @@ import (
 	"net/http"
 	"os"
 	"time"
-
+	"strings"
 	"wtf/internal/context"
 	"wtf/internal/explainer"
 )
 
-const geminiURL = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent"
+const geminiURL = "https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash-lite:generateContent"
 
 type geminiRequest struct {
 	Contents []geminiContent `json:"contents"`
@@ -86,13 +86,31 @@ func Explain(ctx *context.Context) (explainer.ExplainResult, error) {
 		return explainer.ExplainResult{}, errors.New("empty Gemini response")
 	}
 
+//	raw := gResp.Candidates[0].Content.Parts[0].Text
+//
+//	var result explainer.ExplainResult
+//	if err := json.Unmarshal([]byte(raw), &result); err != nil {
+//		return explainer.ExplainResult{}, err
+//	}
+//
+//	return result, nil
 	raw := gResp.Candidates[0].Content.Parts[0].Text
 
+	jsonStart := strings.Index(raw, "{")
+	jsonEnd := strings.LastIndex(raw, "}")
+
+	if jsonStart == -1 || jsonEnd == -1 || jsonEnd <= jsonStart {
+	        return explainer.ExplainResult{}, errors.New("no JSON in AI response")
+	}
+
+	clean := raw[jsonStart : jsonEnd+1]
+
 	var result explainer.ExplainResult
-	if err := json.Unmarshal([]byte(raw), &result); err != nil {
-		return explainer.ExplainResult{}, err
+	if err := json.Unmarshal([]byte(clean), &result); err != nil {
+	        return explainer.ExplainResult{}, err
 	}
 
 	return result, nil
+
 }
 
