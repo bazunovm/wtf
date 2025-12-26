@@ -27,7 +27,7 @@ Run the script with superuser privileges:
 sudo ./install.sh
 ```
 
-To use AI add your Gemini API key on https://aistudio.google.com/ and run ai_add.sh script:
+To use AI get your Gemini API key on https://aistudio.google.com/ and run ai_add.sh script with your API key as an argument:
 
 ```bash
 sudo ./ai_add.sh <your_api_key>
