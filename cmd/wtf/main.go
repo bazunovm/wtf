@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
-
+	"wtf/internal/health"
 	"wtf/internal/context"
 	"wtf/internal/explainer"
 	"wtf/internal/runner"
@@ -11,6 +11,10 @@ import (
 )
 
 func main() {
+	if len(os.Args) == 2 && os.Args[1] == "--health-check" {
+	health.Run()
+	return
+	}	
 	if len(os.Args) < 2 {
 		fmt.Println("Usage: wtf <command>")
 		return
