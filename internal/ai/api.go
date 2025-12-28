@@ -12,6 +12,28 @@ import (
 	"wtf/internal/explainer"
 )
 
+func loadAPIKey() string {
+	// 1. env (override)
+	if v := os.Getenv("WTF_AI_API_KEY"); v != "" {
+		return v
+	}
+
+	// 2. /etc/wtf/config
+	data, err := os.ReadFile("/etc/wtf/config")
+	if err != nil {
+		return ""
+	}
+
+	lines := strings.Split(string(data), "\n")
+	for _, line := range lines {
+		if strings.HasPrefix(line, "WTF_AI_API_KEY=") {
+			return strings.TrimPrefix(line, "WTF_AI_API_KEY=")
+		}
+	}
+
+	return ""
+}
+
 const geminiURL = "https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash-lite:generateContent"
 
 type geminiRequest struct {
@@ -38,7 +60,8 @@ type geminiResponse struct {
 }
 
 func Explain(ctx *context.Context) (explainer.ExplainResult, error) {
-	apiKey := os.Getenv("WTF_AI_API_KEY")
+	// apiKey := os.Getenv("WTF_AI_API_KEY")
+	apiKey := loadAPIKey()
 	if apiKey == "" {
 		return explainer.ExplainResult{}, errors.New("AI API key not set")
 	}
