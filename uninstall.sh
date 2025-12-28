@@ -20,6 +20,15 @@ else
     echo "ℹ /usr/local/share/wtf not found"
 fi
 
+# Remove config dir
+
+if [ -d /etc/wtf ]; then
+    sudo rm -rf /etc/wtf
+    echo "✔ Removed /etc/wtf"
+else
+    echo "ℹ /etc/wtf not found"
+fi
+
 # Remove local project directory (relative)
 if [ -d "../wtf" ]; then
     rm -rf ../wtf

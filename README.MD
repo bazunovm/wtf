@@ -27,11 +27,13 @@ Run the script with superuser privileges:
 sudo ./install.sh
 ```
 
-To use AI get your Gemini API key on https://aistudio.google.com/ and run ai_add.sh script with your API key as an argument:
+To use AI get your Gemini API key on https://aistudio.google.com/ and run wtf-auth.sh script with your API key as an argument:
 
 ```bash
-sudo ./ai_add.sh <your_api_key>
+sudo ./wtf-auth.sh <your_api_key>
 ```
+
+To edit your API-key you can go to /etc/wtf/config
 
 ## 🚀 Usage
 
@@ -71,4 +73,16 @@ To add a new rule:
   suggestions:
     - "Recommendation 1"
     - "Recommendation 2"
+```
+
+### Check version
+
+```bash
+wtf --version
+```
+
+### Health-check
+
+```bash
+wtf --health-check
 ```
