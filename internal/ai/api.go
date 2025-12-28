@@ -40,7 +40,7 @@ type geminiResponse struct {
 
 func Explain(ctx *context.Context) (explainer.ExplainResult, error) {
 	// apiKey := os.Getenv("WTF_AI_API_KEY")
-	apiKey := ai.loadAPIKey()
+	apiKey := LoadAPIKey()
 	if apiKey == "" {
 		return explainer.ExplainResult{}, errors.New("AI API key not set")
 	}
