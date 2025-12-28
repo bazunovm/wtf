@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"time"
+	"wtf/internal/ai"
 )
 
 func Run() {
@@ -67,7 +68,8 @@ func checkAPIKey() {
 }
 
 func checkAI() {
-	key := os.Getenv("WTF_AI_API_KEY")
+	key := ai.LoadAPIKey()
+	//key := os.Getenv("WTF_AI_API_KEY")
 	if key == "" {
 		return
 	}
