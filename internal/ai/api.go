@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
-	"os"
+	//"os"
 	"time"
 	"strings"
 	"wtf/internal/context"
@@ -40,7 +40,7 @@ type geminiResponse struct {
 
 func Explain(ctx *context.Context) (explainer.ExplainResult, error) {
 	// apiKey := os.Getenv("WTF_AI_API_KEY")
-	apiKey := loadAPIKey()
+	apiKey := ai.loadAPIKey()
 	if apiKey == "" {
 		return explainer.ExplainResult{}, errors.New("AI API key not set")
 	}
