@@ -8,13 +8,18 @@ import (
 	"wtf/internal/explainer"
 	"wtf/internal/runner"
 	"wtf/internal/ai"
+	"wtf/internal/version"
 )
 
 func main() {
 	if len(os.Args) == 2 && os.Args[1] == "--health-check" {
 	health.Run()
 	return
-	}	
+	}
+	if len(os.Args) == 2 && os.Args[1] == "--version" {
+	fmt.Println("wtf v" + version.Version)
+	return
+	}
 	if len(os.Args) < 2 {
 		fmt.Println("Usage: wtf <command>")
 		return
