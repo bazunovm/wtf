@@ -59,7 +59,7 @@ func checkRules() {
 }
 
 func checkAPIKey() {
-	key := os.Getenv("WTF_AI_API_KEY")
+	key := ai.LoadAPIKey()
 	if key == "" {
 		warn("WTF_AI_API_KEY not set")
 		return
